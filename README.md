@@ -314,7 +314,7 @@ See LICENSE for full terms.
 ```
 @software{genai_legacy_analyzer_2025,
   title = {GenAI Legacy Code Understanding & Risk Analyzer},
-  author = {Your Name},
+  author = {SajithMelethil},
   year = {2025},
   url = {https://github.com/yourusername/genai-legacy-analyzer}
 }
@@ -328,6 +328,7 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
 
