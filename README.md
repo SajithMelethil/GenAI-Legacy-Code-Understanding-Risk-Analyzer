@@ -10,7 +10,7 @@
 This project includes a **Proof of Concept (POC)** that validates the feasibility of using **Generative AI** to understand and modernize legacy enterprise systems.
 
 The POC demonstrates the ability to:
-- Analyze **legacy COBOL source code** automatically
+- Analyze **legacy COBOL source code as well as other types** automatically
 - Extract **business rules** in a structured format
 - Perform **quantitative migration risk assessment**
 - Recommend **modernization strategies** (refactor vs rewrite)
@@ -341,6 +341,7 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
 
