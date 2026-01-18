@@ -265,7 +265,7 @@ Automatic file cleanup
 
 Audit logging and versioning
 ```
-###🧪 Testing & Quality Assurance
+### 🧪 Testing & Quality Assurance
 ```
 pytest tests/ --cov=src --cov-report=html
 
@@ -328,6 +328,7 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
 
