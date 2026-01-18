@@ -5,6 +5,18 @@
 **GenAI Legacy Code Understanding & Risk Analyzer** is an AI-powered system designed to automate the analysis of legacy enterprise source code, with a strong focus on **COBOL-based systems**. The platform extracts business rules, assesses migration risks, and recommends actionable modernization strategies to support large-scale digital transformation initiatives.
 
 ---
+## 🧪 Proof of Concept (POC)
+
+This project includes a **Proof of Concept (POC)** that validates the feasibility of using **Generative AI** to understand and modernize legacy enterprise systems.
+
+The POC demonstrates the ability to:
+- Analyze **legacy COBOL source code** automatically
+- Extract **business rules** in a structured format
+- Perform **quantitative migration risk assessment**
+- Recommend **modernization strategies** (refactor vs rewrite)
+- Generate **automated documentation and reports**
+
+The POC confirms that GenAI can effectively support **legacy system understanding and modernization decision-making** with minimal manual effort.
 
 ## ✨ Key Features
 
@@ -329,6 +341,7 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
 
