@@ -1,0 +1,474 @@
+{
+  "project": "GenAI Legacy Code Understanding & Risk Analyzer",
+  "session_info": {
+    "session_id": "8d1640c0-2d76-4034-b4ff-dfbcc87a6754",
+    "analysis_type": "business_rules",
+    "start_time": "2026-01-18T14:36:30.491649",
+    "end_time": null,
+    "status": "processing"
+  },
+  "analysis_results": {
+    "file_analyses": [
+      {
+        "filename": "testing.cbl",
+        "file_type": ".cbl",
+        "file_size": 1762,
+        "file_name": "uploads\\8d1640c0-2d76-4034-b4ff-dfbcc87a6754\\testing.cbl",
+        "structure": {
+          "divisions": [
+            "I",
+            "E",
+            "D",
+            "P"
+          ],
+          "sections": [
+            "WORKING-STORAGE SECTION."
+          ],
+          "paragraphs": [
+            "DIVISION.",
+            "PROGRAM-ID. CUSTOMER-ACCOUNT-MGMT.",
+            "DIVISION.",
+            "DIVISION.",
+            "SECTION.",
+            "WS-CUSTOMER-RECORD.",
+            "V99.",
+            "V99.",
+            "V99.",
+            "DIVISION.",
+            "MAIN-PARA.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-CUST-BALANCE.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-NEW-BALANCE.",
+            "WS-CUST-STATUS.",
+            "WS-MESSAGE.",
+            "RUN."
+          ],
+          "copybooks": [],
+          "calls": []
+        },
+        "business_rules": {
+          "business_rules": [
+            {
+              "id": "BR001",
+              "description": "Validate customer ID input",
+              "logic": "ACCEPT WS-CUST-ID",
+              "complexity": "low",
+              "inputs": [
+                "WS-CUST-ID"
+              ],
+              "outputs": [],
+              "dependencies": []
+            },
+            {
+              "id": "BR002",
+              "description": "Validate customer name input",
+              "logic": "ACCEPT WS-CUST-NAME",
+              "complexity": "low",
+              "inputs": [
+                "WS-CUST-NAME"
+              ],
+              "outputs": [],
+              "dependencies": []
+            },
+            {
+              "id": "BR003",
+              "description": "Validate transaction amount input",
+              "logic": "ACCEPT WS-TRANSACTION-AMT",
+              "complexity": "low",
+              "inputs": [
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [],
+              "dependencies": []
+            },
+            {
+              "id": "BR004",
+              "description": "Determine customer status based on transaction amount",
+              "logic": "IF WS-TRANSACTION-AMT < 0 THEN MOVE 'D' TO WS-CUST-STATUS ELSE MOVE 'A' TO WS-CUST-STATUS END-IF",
+              "complexity": "medium",
+              "inputs": [
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-CUST-STATUS"
+              ],
+              "dependencies": []
+            },
+            {
+              "id": "BR005",
+              "description": "Calculate new balance",
+              "logic": "COMPUTE WS-NEW-BALANCE = WS-CUST-BALANCE + WS-TRANSACTION-AMT",
+              "complexity": "medium",
+              "inputs": [
+                "WS-CUST-BALANCE",
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "dependencies": []
+            },
+            {
+              "id": "BR006",
+              "description": "Validate new balance",
+              "logic": "IF WS-NEW-BALANCE < 0 THEN MOVE 'INSUFFICIENT FUNDS' TO WS-MESSAGE ELSE MOVE 'TRANSACTION SUCCESSFUL' TO WS-MESSAGE END-IF",
+              "complexity": "medium",
+              "inputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "outputs": [
+                "WS-MESSAGE"
+              ],
+              "dependencies": []
+            },
+            {
+              "id": "BR007",
+              "description": "Display customer information",
+              "logic": "DISPLAY 'CUSTOMER ID      : ' WS-CUST-ID DISPLAY 'CUSTOMER NAME    : ' WS-CUST-NAME DISPLAY 'NEW BALANCE      : ' WS-NEW-BALANCE DISPLAY 'STATUS           : ' WS-CUST-STATUS DISPLAY 'MESSAGE          : ' WS-MESSAGE",
+              "complexity": "high",
+              "inputs": [
+                "WS-CUST-ID",
+                "WS-CUST-NAME",
+                "WS-NEW-BALANCE",
+                "WS-CUST-STATUS",
+                "WS-MESSAGE"
+              ],
+              "outputs": [],
+              "dependencies": []
+            }
+          ],
+          "summary": "Legacy COBOL program for customer account processing",
+          "total_rules_extracted": 7
+        },
+        "dependencies": {
+          "internal": [],
+          "external": [],
+          "databases": [],
+          "files": []
+        },
+        "metrics": {
+          "total_lines": 60,
+          "executable_lines": 41,
+          "comment_lines": 3,
+          "comment_percentage": 5.0,
+          "control_statements": 2,
+          "cyclomatic_complexity": 3,
+          "maintainability_index": 94
+        },
+        "analysis_type": "COBOL",
+        "groq_analysis": {
+          "business_rules": [
+            {
+              "id": "BR001",
+              "description": "Validate customer ID input",
+              "logic": "ACCEPT WS-CUST-ID",
+              "complexity": "low",
+              "inputs": [
+                "WS-CUST-ID"
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            },
+            {
+              "id": "BR002",
+              "description": "Validate customer name input",
+              "logic": "ACCEPT WS-CUST-NAME",
+              "complexity": "low",
+              "inputs": [
+                "WS-CUST-NAME"
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            },
+            {
+              "id": "BR003",
+              "description": "Validate transaction amount input",
+              "logic": "ACCEPT WS-TRANSACTION-AMT",
+              "complexity": "low",
+              "inputs": [
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            },
+            {
+              "id": "BR004",
+              "description": "Determine customer status based on transaction amount",
+              "logic": "IF WS-TRANSACTION-AMT < 0 THEN MOVE 'D' TO WS-CUST-STATUS ELSE MOVE 'A' TO WS-CUST-STATUS END-IF",
+              "complexity": "medium",
+              "inputs": [
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-CUST-STATUS"
+              ],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            },
+            {
+              "id": "BR005",
+              "description": "Calculate new balance",
+              "logic": "COMPUTE WS-NEW-BALANCE = WS-CUST-BALANCE + WS-TRANSACTION-AMT",
+              "complexity": "medium",
+              "inputs": [
+                "WS-CUST-BALANCE",
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            },
+            {
+              "id": "BR006",
+              "description": "Validate new balance",
+              "logic": "IF WS-NEW-BALANCE < 0 THEN MOVE 'INSUFFICIENT FUNDS' TO WS-MESSAGE ELSE MOVE 'TRANSACTION SUCCESSFUL' TO WS-MESSAGE END-IF",
+              "complexity": "medium",
+              "inputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "outputs": [
+                "WS-MESSAGE"
+              ],
+              "dependencies": [],
+              "source_file": "testing.cbl",
+              "language": "COBOL"
+            }
+          ],
+          "summary": "Customer account management program with input validation, status determination, balance calculation, and transaction outcome display.",
+          "total_rules_extracted": 6
+        }
+      }
+    ],
+    "business_rules": {
+      "total_rules_extracted": 12,
+      "files_analyzed": 1,
+      "business_rules": [
+        {
+          "id": "BR001",
+          "description": "Validate customer ID input",
+          "logic": "ACCEPT WS-CUST-ID",
+          "complexity": "low",
+          "inputs": [
+            "WS-CUST-ID"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR002",
+          "description": "Validate customer name input",
+          "logic": "ACCEPT WS-CUST-NAME",
+          "complexity": "low",
+          "inputs": [
+            "WS-CUST-NAME"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR003",
+          "description": "Validate transaction amount input",
+          "logic": "ACCEPT WS-TRANSACTION-AMT",
+          "complexity": "low",
+          "inputs": [
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR004",
+          "description": "Determine customer status based on transaction amount",
+          "logic": "IF WS-TRANSACTION-AMT < 0 THEN MOVE 'D' TO WS-CUST-STATUS ELSE MOVE 'A' TO WS-CUST-STATUS END-IF",
+          "complexity": "medium",
+          "inputs": [
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [
+            "WS-CUST-STATUS"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR005",
+          "description": "Calculate new balance",
+          "logic": "COMPUTE WS-NEW-BALANCE = WS-CUST-BALANCE + WS-TRANSACTION-AMT",
+          "complexity": "low",
+          "inputs": [
+            "WS-CUST-BALANCE",
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [
+            "WS-NEW-BALANCE"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR006",
+          "description": "Validate new balance",
+          "logic": "IF WS-NEW-BALANCE < 0 THEN MOVE 'INSUFFICIENT FUNDS' TO WS-MESSAGE ELSE MOVE 'TRANSACTION SUCCESSFUL' TO WS-MESSAGE END-IF",
+          "complexity": "medium",
+          "inputs": [
+            "WS-NEW-BALANCE"
+          ],
+          "outputs": [
+            "WS-MESSAGE"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR001",
+          "description": "Validate customer ID input",
+          "logic": "ACCEPT WS-CUST-ID",
+          "complexity": "low",
+          "inputs": [
+            "WS-CUST-ID"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR002",
+          "description": "Validate customer name input",
+          "logic": "ACCEPT WS-CUST-NAME",
+          "complexity": "low",
+          "inputs": [
+            "WS-CUST-NAME"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR003",
+          "description": "Validate transaction amount input",
+          "logic": "ACCEPT WS-TRANSACTION-AMT",
+          "complexity": "low",
+          "inputs": [
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR004",
+          "description": "Determine customer status based on transaction amount",
+          "logic": "IF WS-TRANSACTION-AMT < 0 THEN MOVE 'D' TO WS-CUST-STATUS ELSE MOVE 'A' TO WS-CUST-STATUS END-IF",
+          "complexity": "medium",
+          "inputs": [
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [
+            "WS-CUST-STATUS"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR005",
+          "description": "Calculate new balance",
+          "logic": "COMPUTE WS-NEW-BALANCE = WS-CUST-BALANCE + WS-TRANSACTION-AMT",
+          "complexity": "medium",
+          "inputs": [
+            "WS-CUST-BALANCE",
+            "WS-TRANSACTION-AMT"
+          ],
+          "outputs": [
+            "WS-NEW-BALANCE"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "BR006",
+          "description": "Validate new balance",
+          "logic": "IF WS-NEW-BALANCE < 0 THEN MOVE 'INSUFFICIENT FUNDS' TO WS-MESSAGE ELSE MOVE 'TRANSACTION SUCCESSFUL' TO WS-MESSAGE END-IF",
+          "complexity": "medium",
+          "inputs": [
+            "WS-NEW-BALANCE"
+          ],
+          "outputs": [
+            "WS-MESSAGE"
+          ],
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        }
+      ],
+      "report_summary": {
+        "total_rules": 6,
+        "complexity_distribution": {
+          "low": 4,
+          "medium": 2,
+          "high": 0
+        },
+        "average_cyclomatic_complexity": 3.0,
+        "average_maintainability_index": 94.0,
+        "files_analyzed": 1,
+        "recommendations": []
+      },
+      "output_files": [
+        "data/outputs/business_rules/business_rules.json",
+        "data/outputs/business_rules/analysis_report.json"
+      ]
+    },
+    "risk_assessment": {},
+    "modernization_strategies": {},
+    "summary": {
+      "total_files": 1,
+      "total_business_rules_extracted": 18,
+      "analysis_type": "business_rules",
+      "modules_executed": {
+        "groq_analysis": true,
+        "cobol_analyzer": true,
+        "business_rule_extractor": true,
+        "risk_assessment": true,
+        "modernization_strategy": true
+      },
+      "completion_time": "2026-01-18T14:36:34.907910"
+    }
+  },
+  "metrics": {
+    "files_analyzed": 1,
+    "business_rules_extracted": 18,
+    "risk_score": 0,
+    "recommended_strategies": 0
+  },
+  "errors": []
+}

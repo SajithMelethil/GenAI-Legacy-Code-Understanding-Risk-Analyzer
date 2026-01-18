@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Legacy Code Analyzer</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .upload-area {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .upload-box {
+            border: 3px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s;
+        }
+        
+        .upload-box:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .upload-box input[type="file"] {
+            display: none;
+        }
+        
+        .upload-label {
+            display: block;
+            cursor: pointer;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .file-list {
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            background: var(--background-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .analysis-options {
+            margin: 2rem 0;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .option-card {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .option-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.05);
+        }
+        
+        .option-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .result-card {
+            background: var(--background-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .metric {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .risk-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .risk-low { background: #d1fae5; color: #065f46; }
+        .risk-medium { background: #fef3c7; color: #92400e; }
+        .risk-high { background: #fee2e2; color: #991b1b; }
+        .risk-critical { background: #fecaca; color: #7f1d1d; }
+        
+        .visualization {
+            width: 100%;
+            height: 300px;
+            background: var(--background-color);
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            color: #64748b;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .upload-area {
+                padding: 1.5rem;
+            }
+            
+            .upload-box {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">LegacyAnalyzer.ai</div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>AI-Powered Legacy Code Analysis</h1>
+            <p>Upload your legacy code (COBOL, Java, C++, etc.) and get instant insights into business rules, migration risks, and modernization strategies.</p>
+            <button class="btn" onclick="scrollToUpload()">
+                <span>Start Analysis</span>
+                <span>→</span>
+            </button>
+        </div>
+    </section>
+    
+    <div class="container">
+        <section class="upload-area" id="uploadSection">
+            <h2>Upload Legacy Code Files</h2>
+            <p>Supported formats: COBOL (.cbl, .cob), Java (.java), C++ (.cpp), C# (.cs), Python (.py)</p>
+            
+            <div class="upload-box" id="uploadBox">
+                <label class="upload-label" for="fileInput">
+                    <div class="upload-icon">📁</div>
+                    <h3>Drag & Drop files here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="fileInput" multiple accept=".cbl,.cob,.java,.cpp,.cs,.py,.vb,.js">
+                </label>
+            </div>
+            
+            <div class="file-list" id="fileList">
+                <!-- Files will be listed here -->
+            </div>
+            
+            <div class="analysis-options">
+                <h3>Select Analysis Type</h3>
+                <div class="options-grid">
+                    <div class="option-card" data-type="business_rules">
+                        <div class="option-icon">🔍</div>
+                        <h4>Business Rules Extraction</h4>
+                        <p>Extract and document business logic from legacy code</p>
+                    </div>
+                    
+                    <div class="option-card" data-type="risk_assessment">
+                        <div class="option-icon">⚠️</div>
+                        <h4>Migration Risk Assessment</h4>
+                        <p>Identify risks and complexity in migration projects</p>
+                    </div>
+                    
+                    <div class="option-card" data-type="modernization">
+                        <div class="option-icon">🚀</div>
+                        <h4>Modernization Strategy</h4>
+                        <p>Get recommendations for refactoring or rewriting</p>
+                    </div>
+                    
+                    <div class="option-card" data-type="full_analysis">
+                        <div class="option-icon">📊</div>
+                        <h4>Full Analysis</h4>
+                        <p>Complete analysis including all features</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn" id="analyzeBtn" onclick="startAnalysis()" disabled>
+                    <span>Start Analysis</span>
+                </button>
+            </div>
+        </section>
+        
+        <section class="results-section" id="resultsSection">
+            <h2>Analysis Results</h2>
+            <div id="resultsContent">
+                <!-- Results will be loaded here -->
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>GenAI Legacy Code Understanding & Risk Analyzer © 2025-2026</p>
+            <p>Built with Python, LLMs, and Modern Software Architecture</p>
+        </div>
+    </footer>
+    
+    <script>
+        let selectedFiles = [];
+        let selectedAnalysisType = 'business_rules';
+        
+        // File upload handling
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            selectedFiles = Array.from(e.target.files);
+            updateFileList();
+            updateAnalyzeButton();
+        });
+        
+        // Drag and drop
+        const uploadBox = document.getElementById('uploadBox');
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#2563eb';
+        });
+        
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.style.borderColor = '#e2e8f0';
+        });
+        
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.style.borderColor = '#e2e8f0';
+            selectedFiles = Array.from(e.dataTransfer.files);
+            updateFileList();
+            updateAnalyzeButton();
+        });
+        
+        // Analysis type selection
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.option-card').forEach(c => {
+                    c.classList.remove('selected');
+                });
+                card.classList.add('selected');
+                selectedAnalysisType = card.dataset.type;
+            });
+        });
+        
+        // Set first option as selected
+        document.querySelector('.option-card').classList.add('selected');
+        
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            if (selectedFiles.length === 0) {
+                fileList.innerHTML = '<p style="text-align: center; color: #64748b;">No files selected</p>';
+                return;
+            }
+            
+            fileList.innerHTML = selectedFiles.map(file => `
+                <div class="file-item">
+                    <span>${file.name} (${(file.size / 1024).toFixed(1)} KB)</span>
+                    <button onclick="removeFile('${file.name}')" style="background: none; border: none; color: #ef4444; cursor: pointer;">×</button>
+                </div>
+            `).join('');
+        }
+        
+        function removeFile(fileName) {
+            selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+            updateFileList();
+            updateAnalyzeButton();
+        }
+        
+        function updateAnalyzeButton() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = selectedFiles.length === 0;
+        }
+        
+        async function startAnalysis() {
+            if (selectedFiles.length === 0) return;
+            
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const originalText = analyzeBtn.innerHTML;
+            analyzeBtn.innerHTML = '<span class="spinner"></span> Analyzing...';
+            analyzeBtn.disabled = true;
+            
+            // Create FormData
+            const formData = new FormData();
+            selectedFiles.forEach(file => {
+                formData.append('files', file);
+            });
+            formData.append('analysis_type', selectedAnalysisType);
+            
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Redirect to results page
+                    window.location.href = `/results/${result.session_id}`;
+                } else {
+                    alert('Analysis failed: ' + (result.detail || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Network error: ' + error.message);
+            } finally {
+                analyzeBtn.innerHTML = originalText;
+                analyzeBtn.disabled = false;
+            }
+        }
+        
+        function scrollToUpload() {
+            document.getElementById('uploadSection').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        // Initialize
+        updateFileList();
+    </script>
+</body>
+</html>

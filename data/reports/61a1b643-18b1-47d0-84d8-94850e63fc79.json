@@ -1,0 +1,690 @@
+{
+  "project": "GenAI Legacy Code Understanding & Risk Analyzer",
+  "session_info": {
+    "session_id": "61a1b643-18b1-47d0-84d8-94850e63fc79",
+    "analysis_type": "full_analysis",
+    "start_time": "2026-01-18T14:54:41.011373",
+    "end_time": null,
+    "status": "processing"
+  },
+  "analysis_results": {
+    "file_analyses": [
+      {
+        "filename": "simple_app.py",
+        "file_type": ".py",
+        "file_size": 1854,
+        "groq_analysis": {
+          "business_rules": [
+            {
+              "id": "BR001",
+              "description": "Validate uploaded file format",
+              "logic": "Check if file is of type .txt, .py, or .java",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "file",
+                  "type": "UploadFile"
+                }
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR002",
+              "description": "Extract file content",
+              "logic": "Read file using open() function",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "file_path",
+                  "type": "str"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "content",
+                  "type": "str"
+                }
+              ],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR003",
+              "description": "Limit file content to 5000 characters",
+              "logic": "Use read() function with limit 5000",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "content",
+                  "type": "str"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "content",
+                  "type": "str"
+                }
+              ],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR004",
+              "description": "Count words in file content",
+              "logic": "Split content by spaces and count words",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "content",
+                  "type": "str"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "word_count",
+                  "type": "int"
+                }
+              ],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR005",
+              "description": "Create session directory",
+              "logic": "Use os.makedirs() function",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "session_id",
+                  "type": "str"
+                }
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR006",
+              "description": "Save uploaded file",
+              "logic": "Use shutil.copyfileobj() function",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "file",
+                  "type": "UploadFile"
+                },
+                {
+                  "name": "session_dir",
+                  "type": "str"
+                }
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR007",
+              "description": "Create analysis result",
+              "logic": "Use dictionary to store result",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "filename",
+                  "type": "str"
+                },
+                {
+                  "name": "size",
+                  "type": "int"
+                },
+                {
+                  "name": "word_count",
+                  "type": "int"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "result",
+                  "type": "dict"
+                }
+              ],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            },
+            {
+              "id": "BR008",
+              "description": "Return analysis results",
+              "logic": "Use JSONResponse() function",
+              "complexity": "low",
+              "inputs": [
+                {
+                  "name": "session_id",
+                  "type": "str"
+                },
+                {
+                  "name": "results",
+                  "type": "list"
+                }
+              ],
+              "outputs": [],
+              "dependencies": [],
+              "source_file": "simple_app.py",
+              "language": "Unknown"
+            }
+          ],
+          "summary": "Legacy code analysis tool extracts business rules from uploaded files",
+          "total_rules_extracted": 8
+        }
+      }
+    ],
+    "business_rules": {
+      "total_rules_extracted": 8,
+      "files_analyzed": 0,
+      "business_rules": [
+        {
+          "id": "BR001",
+          "description": "Validate uploaded file format",
+          "logic": "Check if file is of type .txt, .py, or .java",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "file",
+              "type": "UploadFile"
+            }
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR002",
+          "description": "Extract file content",
+          "logic": "Read file using open() function",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "file_path",
+              "type": "str"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "content",
+              "type": "str"
+            }
+          ],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR003",
+          "description": "Limit file content to 5000 characters",
+          "logic": "Use read() function with limit 5000",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "content",
+              "type": "str"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "content",
+              "type": "str"
+            }
+          ],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR004",
+          "description": "Count words in file content",
+          "logic": "Split content by spaces and count words",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "content",
+              "type": "str"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "word_count",
+              "type": "int"
+            }
+          ],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR005",
+          "description": "Create session directory",
+          "logic": "Use os.makedirs() function",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "session_id",
+              "type": "str"
+            }
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR006",
+          "description": "Save uploaded file",
+          "logic": "Use shutil.copyfileobj() function",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "file",
+              "type": "UploadFile"
+            },
+            {
+              "name": "session_dir",
+              "type": "str"
+            }
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR007",
+          "description": "Create analysis result",
+          "logic": "Use dictionary to store result",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "filename",
+              "type": "str"
+            },
+            {
+              "name": "size",
+              "type": "int"
+            },
+            {
+              "name": "word_count",
+              "type": "int"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "result",
+              "type": "dict"
+            }
+          ],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        },
+        {
+          "id": "BR008",
+          "description": "Return analysis results",
+          "logic": "Use JSONResponse() function",
+          "complexity": "low",
+          "inputs": [
+            {
+              "name": "session_id",
+              "type": "str"
+            },
+            {
+              "name": "results",
+              "type": "list"
+            }
+          ],
+          "outputs": [],
+          "dependencies": [],
+          "source_file": "simple_app.py",
+          "language": "Unknown"
+        }
+      ],
+      "report_summary": {
+        "total_rules": 0,
+        "complexity_distribution": {
+          "low": 0,
+          "medium": 0,
+          "high": 0
+        },
+        "average_cyclomatic_complexity": 0,
+        "average_maintainability_index": 0,
+        "files_analyzed": 0,
+        "recommendations": []
+      },
+      "output_files": [
+        "data/outputs/business_rules/business_rules.json",
+        "data/outputs/business_rules/analysis_report.json"
+      ]
+    },
+    "risk_assessment": {
+      "assessment_date": "2026-01-18T14:54:42.794755",
+      "overall_risk_score": 0.0,
+      "risk_level": "LOW",
+      "risks": [],
+      "mitigation_strategies": [],
+      "modernization_recommendation": {
+        "approach": "Refactor",
+        "rationale": "Low risk allows for safe refactoring",
+        "estimated_timeline": "1-3 months",
+        "estimated_cost": "low",
+        "success_probability": "very high",
+        "key_considerations": [
+          "Improve code structure incrementally",
+          "Add automated tests",
+          "Document as you go"
+        ]
+      },
+      "summary": "Overall Risk Score: 0.0/100 (LOW)\nTotal Risks Identified: 0\n"
+    },
+    "modernization_strategies": {
+      "assessment_date": "2026-01-18T14:54:42.794903",
+      "analysis_metrics": {
+        "complexity_score": 0,
+        "business_rules_count": 8,
+        "high_complexity_rules": 0,
+        "dependencies_count": 0
+      },
+      "strategy_scores": {
+        "refactor": 100,
+        "rewrite": 0,
+        "replatform": 40.0,
+        "rehost": 60,
+        "retire": 96.0
+      },
+      "recommendations": [
+        {
+          "strategy": "refactor",
+          "score": 100,
+          "name": "Incremental Refactoring",
+          "description": "Improve existing code structure while maintaining functionality",
+          "suitability": "Highly Suitable",
+          "risk_adjustment": {
+            "confidence": "High",
+            "timeline_modifier": -0.1
+          },
+          "priority": 1
+        },
+        {
+          "strategy": "retire",
+          "score": 96.0,
+          "name": "Retire and Replace",
+          "description": "Decommission legacy system and replace with commercial solution",
+          "suitability": "Highly Suitable",
+          "risk_adjustment": {
+            "confidence": "Medium",
+            "timeline_modifier": 0
+          },
+          "priority": 2
+        },
+        {
+          "strategy": "rehost",
+          "score": 60,
+          "name": "Containerization",
+          "description": "Package legacy applications in containers",
+          "suitability": "Suitable",
+          "risk_adjustment": {
+            "confidence": "High",
+            "timeline_modifier": -0.2
+          },
+          "priority": 3
+        }
+      ],
+      "modernization_roadmap": {
+        "total_phases": 3,
+        "estimated_timeline": "4.5-6.8 months",
+        "phases": [
+          {
+            "phase": 1,
+            "name": "Assessment & Planning",
+            "duration": "2-4 weeks",
+            "activities": [
+              "Detailed requirements gathering",
+              "Stakeholder alignment",
+              "Proof of concept",
+              "Migration strategy finalization"
+            ],
+            "deliverables": [
+              "Detailed migration plan",
+              "Risk mitigation strategy",
+              "Success criteria"
+            ]
+          },
+          {
+            "phase": 2,
+            "name": "Incremental Refactoring",
+            "duration": "1-3 months",
+            "activities": [
+              "Create comprehensive test suite",
+              "Refactor high-priority modules",
+              "Continuous integration setup",
+              "Performance testing"
+            ],
+            "deliverables": [
+              "Refactored codebase",
+              "Automated test suite",
+              "CI/CD pipeline"
+            ]
+          },
+          {
+            "phase": 3,
+            "name": "Deployment & Transition",
+            "duration": "1-2 months",
+            "activities": [
+              "Production deployment",
+              "User training",
+              "Parallel run (if applicable)",
+              "Performance monitoring"
+            ],
+            "deliverables": [
+              "Production system",
+              "User documentation",
+              "Support plan"
+            ]
+          }
+        ],
+        "key_milestones": [
+          {
+            "phase": 1,
+            "name": "Assessment & Planning",
+            "description": "Completion of assessment & planning phase"
+          },
+          {
+            "phase": 3,
+            "name": "Deployment & Transition",
+            "description": "Completion of deployment & transition phase"
+          }
+        ]
+      },
+      "detailed_strategies": {
+        "refactor": {
+          "summary": {
+            "name": "Incremental Refactoring",
+            "description": "Improve existing code structure while maintaining functionality",
+            "applicability": [
+              "Low complexity",
+              "Good test coverage",
+              "Stable requirements"
+            ],
+            "risks": [
+              "Incomplete refactoring",
+              "Regression bugs",
+              "Scope creep"
+            ],
+            "success_factors": [
+              "Strong test suite",
+              "Continuous integration",
+              "Team expertise"
+            ],
+            "estimated_timeline": "1-3 months",
+            "estimated_cost": "Low to Medium"
+          },
+          "pros": [
+            "Preserves business logic and IP",
+            "Lower risk than rewrite",
+            "Incremental approach",
+            "Immediate improvements visible"
+          ],
+          "cons": [
+            "Technical debt may remain",
+            "Can be time-consuming",
+            "Requires skilled developers",
+            "Risk of incomplete refactoring"
+          ],
+          "best_for": [
+            "Low complexity",
+            "Good test coverage",
+            "Stable requirements"
+          ],
+          "risk_factors": [
+            "Incomplete refactoring",
+            "Regression bugs",
+            "Scope creep"
+          ],
+          "success_metrics": [
+            "Reduced maintenance costs",
+            "Improved system performance",
+            "Enhanced scalability",
+            "Better developer productivity"
+          ]
+        },
+        "retire": {
+          "summary": {
+            "name": "Retire and Replace",
+            "description": "Decommission legacy system and replace with commercial solution",
+            "applicability": [
+              "Non-core functionality",
+              "High maintenance cost",
+              "Available SaaS alternatives"
+            ],
+            "risks": [
+              "Vendor lock-in",
+              "Data migration",
+              "Business process changes"
+            ],
+            "success_factors": [
+              "Vendor evaluation",
+              "Transition plan",
+              "User training"
+            ],
+            "estimated_timeline": "3-9 months",
+            "estimated_cost": "Varies"
+          },
+          "pros": [
+            "Eliminates maintenance costs",
+            "Access to vendor support",
+            "Regular updates and patches",
+            "Focus on core business"
+          ],
+          "cons": [
+            "Vendor lock-in",
+            "Loss of control",
+            "Integration challenges",
+            "Data migration complexity"
+          ],
+          "best_for": [
+            "Non-core functionality",
+            "High maintenance cost",
+            "Available SaaS alternatives"
+          ],
+          "risk_factors": [
+            "Vendor lock-in",
+            "Data migration",
+            "Business process changes"
+          ],
+          "success_metrics": [
+            "Reduced maintenance costs",
+            "Improved system performance",
+            "Enhanced scalability",
+            "Better developer productivity"
+          ]
+        },
+        "rehost": {
+          "summary": {
+            "name": "Containerization",
+            "description": "Package legacy applications in containers",
+            "applicability": [
+              "Complex deployment",
+              "Environment consistency",
+              "CI/CD adoption"
+            ],
+            "risks": [
+              "Container management",
+              "Storage issues",
+              "Networking complexity"
+            ],
+            "success_factors": [
+              "Container expertise",
+              "Orchestration platform",
+              "Monitoring tools"
+            ],
+            "estimated_timeline": "2-4 months",
+            "estimated_cost": "Medium"
+          },
+          "pros": [
+            "Environment consistency",
+            "Simplified deployments",
+            "Resource optimization",
+            "Improved scalability"
+          ],
+          "cons": [
+            "Container management complexity",
+            "Storage and networking challenges",
+            "Monitoring overhead",
+            "Security considerations"
+          ],
+          "best_for": [
+            "Complex deployment",
+            "Environment consistency",
+            "CI/CD adoption"
+          ],
+          "risk_factors": [
+            "Container management",
+            "Storage issues",
+            "Networking complexity"
+          ],
+          "success_metrics": [
+            "Reduced maintenance costs",
+            "Improved system performance",
+            "Enhanced scalability",
+            "Better developer productivity"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "total_files": 1,
+      "total_business_rules_extracted": 16,
+      "analysis_type": "full_analysis",
+      "modules_executed": {
+        "groq_analysis": true,
+        "cobol_analyzer": true,
+        "business_rule_extractor": true,
+        "risk_assessment": true,
+        "modernization_strategy": true
+      },
+      "completion_time": "2026-01-18T14:54:42.794932"
+    }
+  },
+  "metrics": {
+    "files_analyzed": 1,
+    "business_rules_extracted": 16,
+    "risk_score": 0.0,
+    "recommended_strategies": 0
+  },
+  "errors": []
+}

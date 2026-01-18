@@ -1,0 +1,14 @@
+{
+  "total_rules": 7,
+  "complexity_distribution": {
+    "low": 3,
+    "medium": 3,
+    "high": 1
+  },
+  "average_cyclomatic_complexity": 3.0,
+  "average_maintainability_index": 94.0,
+  "files_analyzed": 1,
+  "recommendations": [
+    "Document and test 1 high-complexity business rules"
+  ]
+}

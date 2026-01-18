@@ -1,0 +1,8 @@
+ID,Description,Complexity,Source File,Language
+BR001,"Validate customer ID input",low,testing.cbl,COBOL
+BR002,"Validate customer name input",low,testing.cbl,COBOL
+BR003,"Validate transaction amount input",low,testing.cbl,COBOL
+BR004,"Determine customer status based on transaction amount",medium,testing.cbl,COBOL
+BR005,"Calculate new balance",medium,testing.cbl,COBOL
+BR006,"Validate new balance",medium,testing.cbl,COBOL
+BR007,"Display customer information",high,testing.cbl,COBOL

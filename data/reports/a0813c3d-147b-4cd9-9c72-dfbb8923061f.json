@@ -1,0 +1,159 @@
+{
+  "session_info": {
+    "session_id": "a0813c3d-147b-4cd9-9c72-dfbb8923061f",
+    "analysis_type": "risk_assessment",
+    "start_time": "2026-01-18T14:05:56.401354",
+    "end_time": null,
+    "status": "processing"
+  },
+  "files": {
+    "analyzed": [
+      "testing.cbl"
+    ],
+    "unsupported": []
+  },
+  "results": {
+    "file_analyses": [
+      {
+        "filename": "testing.cbl",
+        "file_type": ".cbl",
+        "analysis_type": "COBOL",
+        "file_name": "uploads\\a0813c3d-147b-4cd9-9c72-dfbb8923061f\\testing.cbl",
+        "structure": {
+          "divisions": [
+            "I",
+            "E",
+            "D",
+            "P"
+          ],
+          "sections": [
+            "WORKING-STORAGE SECTION."
+          ],
+          "paragraphs": [
+            "DIVISION.",
+            "PROGRAM-ID. CUSTOMER-ACCOUNT-MGMT.",
+            "DIVISION.",
+            "DIVISION.",
+            "SECTION.",
+            "WS-CUSTOMER-RECORD.",
+            "V99.",
+            "V99.",
+            "V99.",
+            "DIVISION.",
+            "MAIN-PARA.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-CUST-BALANCE.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-NEW-BALANCE.",
+            "WS-CUST-STATUS.",
+            "WS-MESSAGE.",
+            "RUN."
+          ],
+          "copybooks": [],
+          "calls": []
+        },
+        "business_rules": {
+          "business_rules": [
+            {
+              "id": "customer_account_mgmt",
+              "description": "Validate customer account status based on transaction amount",
+              "logic": "If transaction amount is negative, set customer status to 'D' (default), otherwise set to 'A' (active).",
+              "inputs": [
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-CUST-STATUS"
+              ],
+              "complexity": "low",
+              "dependencies": []
+            },
+            {
+              "id": "update_balance",
+              "description": "Update customer balance based on transaction amount",
+              "logic": "Compute new balance by adding transaction amount to current balance.",
+              "inputs": [
+                "WS-CUST-BALANCE",
+                "WS-TRANSACTION-AMT"
+              ],
+              "outputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "complexity": "low",
+              "dependencies": []
+            },
+            {
+              "id": "check_insufficient_funds",
+              "description": "Check if new balance is sufficient",
+              "logic": "If new balance is less than 0, set message to 'INSUFFICIENT FUNDS', otherwise set to 'TRANSACTION SUCCESSFUL'.",
+              "inputs": [
+                "WS-NEW-BALANCE"
+              ],
+              "outputs": [
+                "WS-MESSAGE"
+              ],
+              "complexity": "low",
+              "dependencies": []
+            }
+          ],
+          "summary": "Three business rules were extracted from the legacy COBOL code: customer account status validation, balance update, and insufficient funds check."
+        },
+        "dependencies": {
+          "internal": [],
+          "external": [],
+          "databases": [],
+          "files": []
+        },
+        "metrics": {
+          "total_lines": 60,
+          "executable_lines": 41,
+          "comment_lines": 3,
+          "comment_percentage": 5.0,
+          "control_statements": 2,
+          "cyclomatic_complexity": 3,
+          "maintainability_index": 94
+        }
+      }
+    ],
+    "business_rules": {},
+    "risk_assessment": {
+      "assessment_date": "2026-01-18T14:05:57.555010",
+      "overall_risk_score": 0.0,
+      "risk_level": "LOW",
+      "risks": [],
+      "mitigation_strategies": [],
+      "modernization_recommendation": {
+        "approach": "Refactor",
+        "rationale": "Low risk allows for safe refactoring",
+        "estimated_timeline": "1-3 months",
+        "estimated_cost": "low",
+        "success_probability": "very high",
+        "key_considerations": [
+          "Improve code structure incrementally",
+          "Add automated tests",
+          "Document as you go"
+        ]
+      },
+      "summary": "Overall Risk Score: 0.0/100 (LOW)\nTotal Risks Identified: 0\n"
+    },
+    "modernization_strategies": {},
+    "summary": {
+      "total_files": 1,
+      "analysis_type": "risk_assessment",
+      "modules_used": {
+        "groq_client": true,
+        "cobol_analyzer": true,
+        "business_rules": true,
+        "risk_assessment": true,
+        "modernization": true
+      },
+      "completion_time": "2026-01-18T14:05:57.555062"
+    }
+  },
+  "errors": []
+}

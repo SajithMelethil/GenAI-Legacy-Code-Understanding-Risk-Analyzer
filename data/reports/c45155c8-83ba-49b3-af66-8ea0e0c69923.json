@@ -1,0 +1,201 @@
+{
+  "session_info": {
+    "session_id": "c45155c8-83ba-49b3-af66-8ea0e0c69923",
+    "analysis_type": "business_rules",
+    "start_time": "2026-01-18T14:03:48.282768",
+    "end_time": null,
+    "status": "processing"
+  },
+  "files": {
+    "analyzed": [
+      "testing.cbl"
+    ],
+    "unsupported": []
+  },
+  "results": {
+    "file_analyses": [
+      {
+        "file_name": "uploads\\c45155c8-83ba-49b3-af66-8ea0e0c69923\\testing.cbl",
+        "structure": {
+          "divisions": [
+            "I",
+            "E",
+            "D",
+            "P"
+          ],
+          "sections": [
+            "WORKING-STORAGE SECTION."
+          ],
+          "paragraphs": [
+            "DIVISION.",
+            "PROGRAM-ID. CUSTOMER-ACCOUNT-MGMT.",
+            "DIVISION.",
+            "DIVISION.",
+            "SECTION.",
+            "WS-CUSTOMER-RECORD.",
+            "V99.",
+            "V99.",
+            "V99.",
+            "DIVISION.",
+            "MAIN-PARA.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-CUST-BALANCE.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-TRANSACTION-AMT.",
+            "END-IF.",
+            "WS-CUST-ID.",
+            "WS-CUST-NAME.",
+            "WS-NEW-BALANCE.",
+            "WS-CUST-STATUS.",
+            "WS-MESSAGE.",
+            "RUN."
+          ],
+          "copybooks": [],
+          "calls": []
+        },
+        "business_rules": {
+          "business_rules": [
+            {
+              "id": "customer_account_mgmt",
+              "description": "Validate customer account status and update balance based on transaction amount",
+              "logic": "If transaction amount is negative, set customer status to 'D' (default), otherwise set to 'A' (active). Update balance by adding transaction amount. If new balance is negative, display 'INSUFFICIENT FUNDS' message.",
+              "inputs": [
+                "customer_id",
+                "customer_name",
+                "current_balance",
+                "transaction_amount"
+              ],
+              "outputs": [
+                "customer_status",
+                "new_balance",
+                "message"
+              ],
+              "complexity": "low",
+              "dependencies": [
+                "environment_variables",
+                "data_storage"
+              ]
+            }
+          ],
+          "summary": "The legacy COBOL program contains a single business rule for managing customer accounts, which involves validating the account status and updating the balance based on the transaction amount."
+        },
+        "dependencies": {
+          "internal": [],
+          "external": [],
+          "databases": [],
+          "files": []
+        },
+        "metrics": {
+          "total_lines": 60,
+          "executable_lines": 41,
+          "comment_lines": 3,
+          "comment_percentage": 5.0,
+          "control_statements": 2,
+          "cyclomatic_complexity": 3,
+          "maintainability_index": 94
+        },
+        "analysis_type": "COBOL",
+        "filename": "testing.cbl",
+        "file_type": ".cbl"
+      }
+    ],
+    "business_rules": {
+      "total_rules_extracted": 4,
+      "files_analyzed": 1,
+      "business_rules": [
+        {
+          "id": "customer_account_mgmt",
+          "description": "Validate customer account status based on transaction amount",
+          "logic": "If transaction amount is less than 0, set customer status to 'D' (default), otherwise set to 'A' (active).",
+          "inputs": [
+            "transaction_amount"
+          ],
+          "outputs": [
+            "customer_status"
+          ],
+          "complexity": "low",
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "balance_update",
+          "description": "Update customer balance based on transaction amount",
+          "logic": "Compute new balance by adding transaction amount to current balance.",
+          "inputs": [
+            "current_balance",
+            "transaction_amount"
+          ],
+          "outputs": [
+            "new_balance"
+          ],
+          "complexity": "low",
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "insufficient_funds",
+          "description": "Check if new balance is sufficient",
+          "logic": "If new balance is less than 0, display 'INSUFFICIENT FUNDS' message.",
+          "inputs": [
+            "new_balance"
+          ],
+          "outputs": [
+            "message"
+          ],
+          "complexity": "low",
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        },
+        {
+          "id": "transaction_status",
+          "description": "Determine transaction status based on new balance",
+          "logic": "If new balance is 0 or greater, display 'TRANSACTION SUCCESSFUL' message, otherwise display 'INSUFFICIENT FUNDS' message.",
+          "inputs": [
+            "new_balance"
+          ],
+          "outputs": [
+            "message"
+          ],
+          "complexity": "low",
+          "dependencies": [],
+          "source_file": "testing.cbl",
+          "language": "COBOL"
+        }
+      ],
+      "report_summary": {
+        "total_rules": 4,
+        "complexity_distribution": {
+          "low": 4,
+          "medium": 0,
+          "high": 0
+        },
+        "average_cyclomatic_complexity": 3.0,
+        "average_maintainability_index": 94.0,
+        "files_analyzed": 1,
+        "recommendations": []
+      },
+      "output_files": [
+        "data/outputs/business_rules/business_rules.json",
+        "data/outputs/business_rules/analysis_report.json"
+      ]
+    },
+    "summary": {
+      "total_files": 1,
+      "analysis_type": "business_rules",
+      "modules_used": {
+        "groq_client": true,
+        "cobol_analyzer": true,
+        "business_rules": true,
+        "risk_assessment": true,
+        "modernization": true
+      },
+      "completion_time": "2026-01-18T14:03:50.851460"
+    }
+  },
+  "errors": []
+}

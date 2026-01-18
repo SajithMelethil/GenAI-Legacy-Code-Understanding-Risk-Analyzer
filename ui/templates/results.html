@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - GenAI Legacy Analyzer</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .back-btn {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .results-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .session-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .info-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+        
+        .info-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .analysis-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            padding: 0 1rem;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6b7280;
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .metric-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .rule-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .rule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .rule-id {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+        }
+        
+        .rule-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .rule-details {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+        }
+        
+        .complexity-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .complexity-low {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .complexity-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .complexity-high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .code-structure {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .structure-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .structure-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .structure-content {
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">LegacyAnalyzer.ai</div>
+                <a href="/" class="back-btn">← Back to Analyzer</a>
+            </div>
+        </header>
+        
+        <div class="results-header">
+            <h1>Analysis Results</h1>
+            <div class="session-info">
+                <div class="info-card">
+                    <div class="info-label">Session ID</div>
+                    <div class="info-value" id="sessionId">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Status</div>
+                    <div id="statusBadge" class="status-badge">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Files Analyzed</div>
+                    <div class="info-value" id="fileCount">0</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Analysis Type</div>
+                    <div class="info-value" id="analysisType">N/A</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-stats" id="summaryStats" style="display: none;">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+        
+        <div class="analysis-tabs">
+            <button class="tab active" onclick="showTab('overview')">Overview</button>
+            <button class="tab" onclick="showTab('rules')">Business Rules</button>
+            <button class="tab" onclick="showTab('metrics')">Code Metrics</button>
+            <button class="tab" onclick="showTab('structure')">Code Structure</button>
+            <button class="tab" onclick="showTab('details')">Detailed Analysis</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Analysis Summary</div>
+                </div>
+                <div id="overviewContent">
+                    <div class="metric-grid">
+                        <!-- Metrics will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Extracted Business Rules</div>
+                </div>
+                <div id="rulesOverview">
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <p>Loading business rules...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Business Rules Tab -->
+        <div id="rules" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Business Rules Extraction Results</div>
+                    <span id="rulesCount">0 rules extracted</span>
+                </div>
+                <div id="rulesList">
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <p>Loading business rules...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Code Metrics Tab -->
+        <div id="metrics" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Code Quality Metrics</div>
+                </div>
+                <div id="metricsContent">
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <p>Loading metrics...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Code Structure Tab -->
+        <div id="structure" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">COBOL Code Structure</div>
+                </div>
+                <div id="structureContent">
+                    <div class="empty-state">
+                        <div class="empty-icon">🏗️</div>
+                        <p>Loading structure analysis...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Analysis Tab -->
+        <div id="details" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Detailed Analysis Data</div>
+                </div>
+                <div id="detailsContent">
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <p>Loading detailed analysis...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="/" class="btn btn-secondary">New Analysis</a>
+            <button class="btn btn-primary" onclick="downloadReport()">Download JSON Report</button>
+        </div>
+    </div>
+    
+    <script>
+        // Get session ID from URL
+        const sessionId = window.location.pathname.split('/').pop();
+        let sessionData = null;
+        
+        // Load session data
+        async function loadSessionData() {
+            try {
+                console.log('Loading session data for:', sessionId);
+                const response = await fetch(`/api/results/${sessionId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                sessionData = data.session_data || data;
+                console.log('Session data loaded:', sessionData);
+                renderResults();
+            } catch (error) {
+                console.error('Error loading session data:', error);
+                document.getElementById('overviewContent').innerHTML = `
+                    <div class="error-card">
+                        <h3>Error Loading Results</h3>
+                        <p>${error.message}</p>
+                        <p>Session might have expired or server was restarted.</p>
+                        <a href="/" class="btn btn-secondary">Start New Analysis</a>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderResults() {
+            if (!sessionData) return;
+            
+            // Update header info
+            document.getElementById('sessionId').textContent = sessionData.session_id || 'N/A';
+            document.getElementById('fileCount').textContent = sessionData.files?.length || 0;
+            document.getElementById('analysisType').textContent = sessionData.analysis_type?.replace('_', ' ') || 'N/A';
+            
+            // Update status badge
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.textContent = sessionData.status?.toUpperCase() || 'UNKNOWN';
+            statusBadge.className = `status-badge status-${sessionData.status || 'unknown'}`;
+            
+            // Get results data
+            const results = sessionData.results || {};
+            const fileAnalysis = results.file_analyses?.[0] || {};
+            const businessRules = results.business_rules?.business_rules || [];
+            const metrics = fileAnalysis.metrics || {};
+            const structure = fileAnalysis.structure || {};
+            
+            // Show summary stats
+            const totalRules = results.summary?.total_business_rules_extracted || businessRules.length;
+            document.getElementById('summaryStats').style.display = 'flex';
+            document.getElementById('summaryStats').innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${sessionData.files?.length || 0}</div>
+                    <div class="stat-label">Files Analyzed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${totalRules}</div>
+                    <div class="stat-label">Business Rules</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${metrics.cyclomatic_complexity || 0}</div>
+                    <div class="stat-label">Complexity Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${metrics.maintainability_index || 0}</div>
+                    <div class="stat-label">Maintainability</div>
+                </div>
+            `;
+            
+            // Render Overview Tab
+            renderOverview(results, fileAnalysis, businessRules);
+            
+            // Render Business Rules Tab
+            renderBusinessRules(businessRules);
+            
+            // Render Metrics Tab
+            renderMetrics(metrics);
+            
+            // Render Structure Tab
+            renderStructure(structure);
+            
+            // Render Details Tab
+            renderDetails(results);
+        }
+        
+        function renderOverview(results, fileAnalysis, businessRules) {
+            const overviewContent = document.getElementById('overviewContent');
+            
+            // Metrics grid
+            const metrics = fileAnalysis.metrics || {};
+            overviewContent.innerHTML = `
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.total_lines || 0}</div>
+                        <div class="metric-label">Total Lines</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.executable_lines || 0}</div>
+                        <div class="metric-label">Executable Lines</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.comment_percentage || 0}%</div>
+                        <div class="metric-label">Comments</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.cyclomatic_complexity || 0}</div>
+                        <div class="metric-label">Complexity</div>
+                    </div>
+                </div>
+            `;
+            
+            // Business rules overview
+            const rulesOverview = document.getElementById('rulesOverview');
+            if (businessRules.length > 0) {
+                const uniqueRules = getUniqueRules(businessRules).slice(0, 6);
+                rulesOverview.innerHTML = `
+                    <div class="rules-grid">
+                        ${uniqueRules.map(rule => `
+                            <div class="rule-card">
+                                <div class="rule-id">${rule.id || 'N/A'}</div>
+                                <div class="rule-title">${rule.description || 'No description'}</div>
+                                <div class="rule-details">
+                                    ${rule.logic ? `<div><strong>Logic:</strong> ${rule.logic}</div>` : ''}
+                                </div>
+                                <div>
+                                    <span class="complexity-badge complexity-${rule.complexity || 'medium'}">
+                                        ${(rule.complexity || 'MEDIUM').toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${businessRules.length > 6 ? `
+                        <div style="text-align: center; margin-top: 1rem; color: #6b7280;">
+                            + ${businessRules.length - 6} more rules (see Business Rules tab)
+                        </div>
+                    ` : ''}
+                `;
+            }
+        }
+        
+        function renderBusinessRules(rules) {
+            const rulesList = document.getElementById('rulesList');
+            const rulesCount = document.getElementById('rulesCount');
+            
+            if (rules.length > 0) {
+                const uniqueRules = getUniqueRules(rules);
+                rulesCount.textContent = `${uniqueRules.length} business rules extracted`;
+                
+                rulesList.innerHTML = `
+                    <div class="rules-grid">
+                        ${uniqueRules.map(rule => `
+                            <div class="rule-card">
+                                <div class="rule-id">${rule.id || 'N/A'}</div>
+                                <div class="rule-title">${rule.description || 'No description'}</div>
+                                <div class="rule-details">
+                                    ${rule.logic ? `<div><strong>Logic:</strong> ${rule.logic}</div>` : ''}
+                                    ${rule.inputs?.length > 0 ? `<div><strong>Inputs:</strong> ${rule.inputs.join(', ')}</div>` : ''}
+                                    ${rule.outputs?.length > 0 ? `<div><strong>Outputs:</strong> ${rule.outputs.join(', ')}</div>` : ''}
+                                    ${rule.dependencies?.length > 0 ? `<div><strong>Dependencies:</strong> ${rule.dependencies.join(', ')}</div>` : ''}
+                                    ${rule.source_file ? `<div><strong>Source:</strong> ${rule.source_file}</div>` : ''}
+                                </div>
+                                <div>
+                                    <span class="complexity-badge complexity-${rule.complexity || 'medium'}">
+                                        ${(rule.complexity || 'MEDIUM').toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                rulesCount.textContent = 'No rules extracted';
+                rulesList.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>No business rules were extracted from the code</p></div>';
+            }
+        }
+        
+        function renderMetrics(metrics) {
+            const metricsContent = document.getElementById('metricsContent');
+            
+            metricsContent.innerHTML = `
+                <div class="metric-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.total_lines || 0}</div>
+                        <div class="metric-label">Total Lines</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.executable_lines || 0}</div>
+                        <div class="metric-label">Executable Lines</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.comment_lines || 0}</div>
+                        <div class="metric-label">Comment Lines</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.comment_percentage || 0}%</div>
+                        <div class="metric-label">Comment Percentage</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.control_statements || 0}</div>
+                        <div class="metric-label">Control Statements</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.cyclomatic_complexity || 0}</div>
+                        <div class="metric-label">Cyclomatic Complexity</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">${metrics.maintainability_index || 0}/100</div>
+                        <div class="metric-label">Maintainability Index</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Interpretation</h4>
+                    <ul style="color: #4b5563;">
+                        <li><strong>Cyclomatic Complexity ${metrics.cyclomatic_complexity || 0}:</strong> ${getComplexityInterpretation(metrics.cyclomatic_complexity)}</li>
+                        <li><strong>Maintainability Index ${metrics.maintainability_index || 0}:</strong> ${getMaintainabilityInterpretation(metrics.maintainability_index)}</li>
+                        <li><strong>Comments ${metrics.comment_percentage || 0}%:</strong> ${getCommentInterpretation(metrics.comment_percentage)}</li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        function renderStructure(structure) {
+            const structureContent = document.getElementById('structureContent');
+            
+            structureContent.innerHTML = `
+                <div class="code-structure">
+                    ${structure.divisions?.length > 0 ? `
+                        <div class="structure-card">
+                            <div class="structure-title">COBOL Divisions</div>
+                            <div class="structure-content">
+                                ${structure.divisions.map(div => `• ${div}`).join('<br>')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${structure.sections?.length > 0 ? `
+                        <div class="structure-card">
+                            <div class="structure-title">Sections</div>
+                            <div class="structure-content">
+                                ${structure.sections.slice(0, 5).map(sec => `• ${sec}`).join('<br>')}
+                                ${structure.sections.length > 5 ? `<br>... and ${structure.sections.length - 5} more` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${structure.paragraphs?.length > 0 ? `
+                        <div class="structure-card">
+                            <div class="structure-title">Paragraphs</div>
+                            <div class="structure-content">
+                                ${structure.paragraphs.slice(0, 10).map(para => `• ${para}`).join('<br>')}
+                                ${structure.paragraphs.length > 10 ? `<br>... and ${structure.paragraphs.length - 10} more` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${structure.copybooks?.length > 0 ? `
+                        <div class="structure-card">
+                            <div class="structure-title">Copybooks</div>
+                            <div class="structure-content">
+                                ${structure.copybooks.map(cb => `• ${cb}`).join('<br>')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${structure.calls?.length > 0 ? `
+                        <div class="structure-card">
+                            <div class="structure-title">External Calls</div>
+                            <div class="structure-content">
+                                ${structure.calls.map(call => `• CALL ${call}`).join('<br>')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        function renderDetails(results) {
+            const detailsContent = document.getElementById('detailsContent');
+            
+            // Create a formatted JSON view
+            detailsContent.innerHTML = `
+                <div style="background: #1f2937; color: #e5e7eb; padding: 1.5rem; border-radius: 8px; font-family: monospace; font-size: 0.875rem; overflow: auto;">
+                    <h4 style="color: #9ca3af; margin-bottom: 1rem;">Complete Analysis Data</h4>
+                    <pre style="margin: 0;">${JSON.stringify(results, null, 2)}</pre>
+                </div>
+            `;
+        }
+        
+        // Helper functions
+        function getUniqueRules(rules) {
+            const seen = new Set();
+            return rules.filter(rule => {
+                const key = `${rule.id}-${rule.description}`;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        }
+        
+        function getComplexityInterpretation(score) {
+            if (score <= 10) return "Simple code, easy to maintain";
+            if (score <= 20) return "Moderate complexity, manageable";
+            if (score <= 30) return "High complexity, consider refactoring";
+            return "Very high complexity, urgent refactoring needed";
+        }
+        
+        function getMaintainabilityInterpretation(score) {
+            if (score >= 85) return "Excellent maintainability";
+            if (score >= 70) return "Good maintainability";
+            if (score >= 50) return "Moderate maintainability";
+            return "Poor maintainability, needs improvement";
+        }
+        
+        function getCommentInterpretation(percentage) {
+            if (percentage >= 20) return "Well documented";
+            if (percentage >= 10) return "Adequate documentation";
+            return "Needs more documentation";
+        }
+        
+        function showTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activate selected tab
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        function downloadReport() {
+            window.location.href = `/download/${sessionId}`;
+        }
+        
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadSessionData);
+    </script>
+</body>
+</html>

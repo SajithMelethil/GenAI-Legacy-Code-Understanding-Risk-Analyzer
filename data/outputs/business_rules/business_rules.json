@@ -1,0 +1,104 @@
+[
+  {
+    "id": "BR001",
+    "description": "Validate customer ID input",
+    "logic": "ACCEPT WS-CUST-ID",
+    "complexity": "low",
+    "inputs": [
+      "WS-CUST-ID"
+    ],
+    "outputs": [],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR002",
+    "description": "Validate customer name input",
+    "logic": "ACCEPT WS-CUST-NAME",
+    "complexity": "low",
+    "inputs": [
+      "WS-CUST-NAME"
+    ],
+    "outputs": [],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR003",
+    "description": "Validate transaction amount input",
+    "logic": "ACCEPT WS-TRANSACTION-AMT",
+    "complexity": "low",
+    "inputs": [
+      "WS-TRANSACTION-AMT"
+    ],
+    "outputs": [],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR004",
+    "description": "Determine customer status based on transaction amount",
+    "logic": "IF WS-TRANSACTION-AMT < 0 THEN MOVE 'D' TO WS-CUST-STATUS ELSE MOVE 'A' TO WS-CUST-STATUS END-IF",
+    "complexity": "medium",
+    "inputs": [
+      "WS-TRANSACTION-AMT"
+    ],
+    "outputs": [
+      "WS-CUST-STATUS"
+    ],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR005",
+    "description": "Calculate new balance",
+    "logic": "COMPUTE WS-NEW-BALANCE = WS-CUST-BALANCE + WS-TRANSACTION-AMT",
+    "complexity": "medium",
+    "inputs": [
+      "WS-CUST-BALANCE",
+      "WS-TRANSACTION-AMT"
+    ],
+    "outputs": [
+      "WS-NEW-BALANCE"
+    ],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR006",
+    "description": "Validate new balance",
+    "logic": "IF WS-NEW-BALANCE < 0 THEN MOVE 'INSUFFICIENT FUNDS' TO WS-MESSAGE ELSE MOVE 'TRANSACTION SUCCESSFUL' TO WS-MESSAGE END-IF",
+    "complexity": "medium",
+    "inputs": [
+      "WS-NEW-BALANCE"
+    ],
+    "outputs": [
+      "WS-MESSAGE"
+    ],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  },
+  {
+    "id": "BR007",
+    "description": "Display customer information",
+    "logic": "DISPLAY 'CUSTOMER ID      : ' WS-CUST-ID DISPLAY 'CUSTOMER NAME    : ' WS-CUST-NAME DISPLAY 'NEW BALANCE      : ' WS-NEW-BALANCE DISPLAY 'STATUS           : ' WS-CUST-STATUS DISPLAY 'MESSAGE          : ' WS-MESSAGE",
+    "complexity": "high",
+    "inputs": [
+      "WS-CUST-ID",
+      "WS-CUST-NAME",
+      "WS-NEW-BALANCE",
+      "WS-CUST-STATUS",
+      "WS-MESSAGE"
+    ],
+    "outputs": [],
+    "dependencies": [],
+    "source_file": "testing.cbl",
+    "language": "COBOL"
+  }
+]
