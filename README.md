@@ -148,16 +148,16 @@ Risk Levels
 61–100: HIGH – Consider rewrite or replacement
 
 ## 3. Modernization Strategy Recommendations
-#Strategy	Description	Best For	Risk Level
-#Refactor	Improve existing structure	Stable, low complexity systems	Low
-#Retire	Replace with COTS solutions	Non-core systems	Medium
-#Rehost	Containerize applications	Deployment-heavy systems	Low–Medium
-#Rewrite	Complete rebuild	Critical legacy systems	High
-#Replatform	Move to modern platforms	Platform-dependent systems	Medium
+# Strategy	Description	Best For	Risk Level
+# Refactor	Improve existing structure	Stable, low complexity systems	Low
+# Retire	Replace with COTS solutions	Non-core systems	Medium
+# Rehost	Containerize applications	Deployment-heavy systems	Low–Medium
+# Rewrite	Complete rebuild	Critical legacy systems	High
+# Replatform	Move to modern platforms	Platform-dependent systems	Medium
 
 ## 4. End-to-End Analysis Pipeline
-#Upload Files → Pre-processing → AI Analysis → Business Rule Extraction →
-#Risk Assessment → Strategy Recommendation → Report Generation → Results Display
+# Upload Files → Pre-processing → AI Analysis → Business Rule Extraction →
+# Risk Assessment → Strategy Recommendation → Report Generation → Results Display
 
 
 Supported Analysis Types
@@ -298,4 +298,5 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
