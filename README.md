@@ -195,7 +195,8 @@ risk_assessment
 modernization
 
 full_analysis (default)
-
+![System Workflow](working1.png)
+![Analysis Pipeline](working2.png)
 
 ### 🔧 Configuration
 ```
@@ -328,6 +329,7 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
 
