@@ -148,19 +148,45 @@ Risk Levels
 61–100: HIGH – Consider rewrite or replacement
 
 ## 3. Modernization Strategy Recommendations
-# Strategy	Description	Best For	Risk Level
-# Refactor	Improve existing structure	Stable, low complexity systems	Low
-# Retire	Replace with COTS solutions	Non-core systems	Medium
-# Rehost	Containerize applications	Deployment-heavy systems	Low–Medium
-# Rewrite	Complete rebuild	Critical legacy systems	High
-# Replatform	Move to modern platforms	Platform-dependent systems	Medium
+
+The system evaluates multiple modernization approaches and recommends the most suitable strategies based on technical risk, business impact, and system complexity.
+
+| Strategy    | Description                    | Best For                             | Risk Level |
+|------------|--------------------------------|--------------------------------------|------------|
+| Refactor   | Improve existing code structure | Stable systems with low complexity   | Low        |
+| Retire     | Replace with COTS solutions     | Non-core, high-maintenance systems   | Medium     |
+| Rehost     | Containerize legacy applications| Deployment-heavy legacy environments | Low–Medium |
+| Rewrite    | Complete system rebuild         | Critical, unsupportable systems      | High       |
+| Replatform | Migrate to modern platforms     | Platform-dependent applications     | Medium     |
+
+The top **three strategies** are automatically recommended based on analysis results.
+
+---
 
 ## 4. End-to-End Analysis Pipeline
-# Upload Files → Pre-processing → AI Analysis → Business Rule Extraction →
-# Risk Assessment → Strategy Recommendation → Report Generation → Results Display
 
+The complete analysis workflow follows a structured, automated pipeline:
 
-Supported Analysis Types
+```text
+Upload Files
+   ↓
+Pre-processing
+   ↓
+AI-Based Code Analysis
+   ↓
+Business Rule Extraction
+   ↓
+Migration Risk Assessment
+   ↓
+Modernization Strategy Recommendation
+   ↓
+Report Generation
+   ↓
+Results Visualization
+
+```
+
+### Supported Analysis Types
 
 business_rules
 
@@ -169,14 +195,16 @@ risk_assessment
 modernization
 
 full_analysis (default)
+
+
+### 🔧 Configuration
 ```
-🔧 Configuration
 API Configuration (config/settings.py)
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     GROQ_API_KEY: str
-    GROQ_MODEL: str = "llama-3.1-8b-instant"
+    GROQ_MODEL: str = ""
 
     MAX_FILE_SIZE: int = 10_485_760
     SUPPORTED_EXTENSIONS: list = ['.cobol', '.cbl', '.cob', '.java', '.py']
@@ -188,8 +216,9 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
-
-📈 Performance & Scalability
+```
+### 📈 Performance & Scalability
+```
 Metric	Value
 Files per Session	1–50+
 Rules per File	6–20+
@@ -203,9 +232,9 @@ Async background processing
 Batch file analysis
 
 Modular analyzer design
-
-📋 API Documentation
-
+```
+### 📋 API Documentation
+```
 Upload Files: POST /upload
 
 Get Results:
@@ -215,9 +244,9 @@ GET /api/results/{session_id}
 Download Report: GET /download/{session_id}
 
 System Status: GET /api/status
-
-🎯 Use Cases
-
+```
+### 🎯 Use Cases
+```
 Legacy System Modernization
 
 Technical Debt Assessment
@@ -225,9 +254,9 @@ Technical Debt Assessment
 Compliance Documentation
 
 Developer Onboarding
-
-🔒 Security & Compliance
-
+```
+### 🔒 Security & Compliance
+```
 Encrypted API keys
 
 Session-based isolation
@@ -235,8 +264,9 @@ Session-based isolation
 Automatic file cleanup
 
 Audit logging and versioning
-
-🧪 Testing & Quality Assurance
+```
+###🧪 Testing & Quality Assurance
+```
 pytest tests/ --cov=src --cov-report=html
 
 
@@ -298,5 +328,6 @@ Documentation: https://genai-legacy-analyzer.readthedocs.io
 Last Updated: January 2026
 Version: 1.0.0
 ```
+
 
 
